@@ -201,9 +201,7 @@ def check_product_publication_status(product_id, publication_id):
     query($id: ID!) {
         product(id: $id) {
             id
-            publishedOnPublication(publicationId: "%s") {
-                id
-            }
+            publishedOnPublication(publicationId: "%s")
         }
     }
     """ % publication_id
@@ -218,9 +216,9 @@ def check_product_publication_status(product_id, publication_id):
     if not product_data:
         return None
     
-    # publishedOnPublication returns the publication ID if published, null if not
+    # publishedOnPublication returns Boolean: True if published, False if not
     published = product_data.get("publishedOnPublication")
-    return published is not None
+    return published if published is not None else None
 
 
 def determine_toggle_actions(product_ids, publications, channels_to_check):
